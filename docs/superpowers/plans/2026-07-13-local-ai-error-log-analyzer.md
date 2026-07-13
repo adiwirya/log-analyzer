@@ -43,14 +43,14 @@
 - Consumes: nothing (first task)
 - Produces: `data/logs.json` — a JSON array of 50 objects, each `{"service": str, "level": str, "message": str}`. All later tasks that load the dataset read this exact path and shape.
 
-- [ ] **Step 1: Create `requirements.txt`**
+- [x] **Step 1: Create `requirements.txt`**
 
 ```
 flask
 ollama
 ```
 
-- [ ] **Step 2: Create `data/logs.json` with 50 dummy entries**
+- [x] **Step 2: Create `data/logs.json` with 50 dummy entries**
 
 ```json
 [
@@ -107,7 +107,7 @@ ollama
 ]
 ```
 
-- [ ] **Step 3: Verify the file is valid JSON with 50 entries**
+- [x] **Step 3: Verify the file is valid JSON with 50 entries**
 
 Run:
 ```bash
@@ -115,16 +115,20 @@ python -c "import json; data = json.load(open('data/logs.json')); print(len(data
 ```
 Expected: prints `50`, then the first entry (`POS API` / SQL connection timeout) and the last entry (`Recommendation Service` / gRPC deadline exceeded).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add requirements.txt data/logs.json
 git commit -m "Add project scaffold and 50-entry dummy log dataset"
 ```
 
+**Task 1 status: COMPLETE.** Commit `d75eb78`. Task-reviewer approved (spec compliant, no issues).
+
 ---
 
 ### Task 2: Prompt builder + Ollama client wrapper
+
+> **PAUSED HERE (2026-07-13) — resume point.** Work paused mid-task to switch machines. See `docs/superpowers/plans/HANDOFF.md` for exact resume instructions before continuing. Commit `wip-task2` on branch `worktree-feature+local-ai-log-analyzer` contains `analyzer.py` with `build_prompt`/`call_ollama` already written verbatim per this task's Step 2 — content only, NOT yet verified (Steps 3-4 unconfirmed) or committed as a finished task.
 
 **Files:**
 - Create: `analyzer.py`
