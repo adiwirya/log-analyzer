@@ -574,7 +574,7 @@ git commit -m "Add Flask app with background-thread analysis and polling routes"
 - Consumes: `GET /status` and `POST /run-analysis` responses from Task 5 (shapes above).
 - Produces: DOM elements consumed by Task 7's rendering code: `#summary` (container), `#results-table` + `#results-body` (table), `#error-banner`, `#progress-container` / `#progress-bar-fill` / `#progress-text`.
 
-- [ ] **Step 1: Replace `templates/index.html` with the full viewer page**
+- [x] **Step 1: Replace `templates/index.html` with the full viewer page**
 
 ```html
 <!DOCTYPE html>
@@ -626,7 +626,7 @@ git commit -m "Add Flask app with background-thread analysis and polling routes"
 </html>
 ```
 
-- [ ] **Step 2: Create `static/style.css`**
+- [x] **Step 2: Create `static/style.css`**
 
 ```css
 * { box-sizing: border-box; font-family: -apple-system, "Segoe UI", Arial, sans-serif; }
@@ -659,7 +659,7 @@ th { background: #fafafa; }
 .badge-unknown { background: #6b7280; }
 ```
 
-- [ ] **Step 3: Create `static/app.js` with run button + polling (rendering stubbed for now)**
+- [x] **Step 3: Create `static/app.js` with run button + polling (rendering stubbed for now)**
 
 ```javascript
 const runBtn = document.getElementById("run-btn");
@@ -727,7 +727,7 @@ runBtn.addEventListener("click", () => {
 renderResults(window.INITIAL_RESULTS);
 ```
 
-- [ ] **Step 4: Verify in browser**
+- [x] **Step 4: Verify in browser**
 
 Run:
 ```bash
@@ -741,7 +741,7 @@ Open `http://127.0.0.1:5000/` in a browser. Confirm:
 
 Stop the server with Ctrl+C once confirmed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add templates/index.html static/style.css static/app.js
