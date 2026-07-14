@@ -222,7 +222,7 @@ git commit -m "Add prompt builder and Ollama client wrapper"
   - `parse_response(raw_text: str) -> dict` — raises `ValueError` if no JSON object can be extracted.
   - `analyze_entry(entry: dict, model: str = "qwen3:4b") -> dict` — returns `{**entry, **ai_fields}` where `ai_fields` has keys `category`, `severity`, `root_cause`, `recommendation` (and `raw_response` only on fallback).
 
-- [ ] **Step 1: Add `parse_response` and `analyze_entry` to `analyzer.py`**
+- [x] **Step 1: Add `parse_response` and `analyze_entry` to `analyzer.py`**
 
 ```python
 import json
@@ -297,7 +297,7 @@ def analyze_entry(entry, model="qwen3:4b"):
                 }
 ```
 
-- [ ] **Step 2: Verify `parse_response` on clean JSON**
+- [x] **Step 2: Verify `parse_response` on clean JSON**
 
 Run:
 ```bash
@@ -305,7 +305,7 @@ python -c "from analyzer import parse_response; print(parse_response('{\"categor
 ```
 Expected: prints `{'category': 'Database', 'severity': 'HIGH', 'root_cause': 'x', 'recommendation': ['a']}`.
 
-- [ ] **Step 3: Verify `parse_response` extracts JSON wrapped in prose**
+- [x] **Step 3: Verify `parse_response` extracts JSON wrapped in prose**
 
 Run:
 ```bash
@@ -313,7 +313,7 @@ python -c "from analyzer import parse_response; print(parse_response('Sure! Here
 ```
 Expected: prints `{'category': 'Database', 'severity': 'HIGH', 'root_cause': 'x', 'recommendation': []}`.
 
-- [ ] **Step 4: Verify `parse_response` raises on unparseable text**
+- [x] **Step 4: Verify `parse_response` raises on unparseable text**
 
 Run:
 ```bash
@@ -321,7 +321,7 @@ python -c "from analyzer import parse_response; parse_response('not json at all'
 ```
 Expected: raises `ValueError: Could not parse JSON from response: 'not json at all'`.
 
-- [ ] **Step 5: Verify `analyze_entry` retry-then-fallback behavior (no real Ollama call needed)**
+- [x] **Step 5: Verify `analyze_entry` retry-then-fallback behavior (no real Ollama call needed)**
 
 Run:
 ```bash
@@ -345,7 +345,7 @@ EOF
 ```
 Expected: prints a dict with `category: 'UNKNOWN'`, `severity: 'UNKNOWN'`, `root_cause: 'Failed to parse AI response'`, `raw_response: 'not valid json'`, and `calls: 2` (confirming exactly one retry).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add analyzer.py
