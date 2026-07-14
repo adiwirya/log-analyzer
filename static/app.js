@@ -3,15 +3,64 @@ const progressContainer = document.getElementById("progress-container");
 const progressBarFill = document.getElementById("progress-bar-fill");
 const progressText = document.getElementById("progress-text");
 const errorBanner = document.getElementById("error-banner");
+const summary = document.getElementById("summary");
+const resultsTable = document.getElementById("results-table");
+const resultsBody = document.getElementById("results-body");
+
+const SEVERITY_ORDER = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3, UNKNOWN: 4 };
 
 function showError(message) {
   errorBanner.textContent = message;
   errorBanner.classList.remove("hidden");
 }
 
+function severityBadgeClass(severity) {
+  const key = (severity || "UNKNOWN").toUpperCase();
+  if (key === "CRITICAL" || key === "HIGH") return "badge-high";
+  if (key === "MEDIUM") return "badge-medium";
+  if (key === "LOW") return "badge-low";
+  return "badge-unknown";
+}
+
+function renderSummary(results) {
+  const bySeverity = {};
+  for (const r of results) {
+    const sev = (r.severity || "UNKNOWN").toUpperCase();
+    bySeverity[sev] = (bySeverity[sev] || 0) + 1;
+  }
+
+  let html = `<div class="summary-item"><span class="label">Total Analyzed</span><span class="value">${results.length}</span></div>`;
+  for (const sev of Object.keys(bySeverity).sort((a, b) => (SEVERITY_ORDER[a] ?? 4) - (SEVERITY_ORDER[b] ?? 4))) {
+    html += `<div class="summary-item"><span class="label">${sev}</span><span class="value">${bySeverity[sev]}</span></div>`;
+  }
+  summary.innerHTML = html;
+}
+
+function renderTable(results) {
+  const sorted = [...results].sort((a, b) => {
+    const sa = SEVERITY_ORDER[(a.severity || "UNKNOWN").toUpperCase()] ?? 4;
+    const sb = SEVERITY_ORDER[(b.severity || "UNKNOWN").toUpperCase()] ?? 4;
+    return sa - sb;
+  });
+
+  resultsBody.innerHTML = sorted.map(r => `
+    <tr>
+      <td>${r.service}</td>
+      <td>${r.level}</td>
+      <td>${(r.message || "").slice(0, 60)}</td>
+      <td>${r.category || ""}</td>
+      <td><span class="badge ${severityBadgeClass(r.severity)}">${r.severity || "UNKNOWN"}</span></td>
+      <td>${r.root_cause || ""}</td>
+      <td><ul>${(r.recommendation || []).map(rec => `<li>${rec}</li>`).join("")}</ul></td>
+    </tr>
+  `).join("");
+  resultsTable.classList.remove("hidden");
+}
+
 function renderResults(results) {
-  // Filled in by Task 7.
-  console.log("renderResults called with", results.length, "entries");
+  if (!results || results.length === 0) return;
+  renderSummary(results);
+  renderTable(results);
 }
 
 function poll() {
