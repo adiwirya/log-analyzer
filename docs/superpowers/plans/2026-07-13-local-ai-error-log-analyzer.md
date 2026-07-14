@@ -427,7 +427,7 @@ git commit -m "Add batch runner with progress callback"
   - Writes `data/analysis_result.json` on completion — later tasks (templates/JS) read this shape: a JSON array of dicts, each with `service`, `level`, `message`, `category`, `severity`, `root_cause`, `recommendation` (and optionally `raw_response`).
   - Module-level `progress` dict shape consumed by `templates/index.html`/`static/app.js`: `{"running": bool, "current": int, "total": int, "done": bool, "error": str | None}`.
 
-- [ ] **Step 1: Create `app.py`**
+- [x] **Step 1: Create `app.py`**
 
 ```python
 import json
@@ -521,7 +521,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 ```
 
-- [ ] **Step 2: Create minimal placeholder template so the app can start**
+- [x] **Step 2: Create minimal placeholder template so the app can start**
 
 Create `templates/index.html` with a temporary placeholder (this is replaced with the full viewer in Task 6):
 
@@ -533,7 +533,7 @@ Create `templates/index.html` with a temporary placeholder (this is replaced wit
 </html>
 ```
 
-- [ ] **Step 3: Verify the server starts and routes respond correctly**
+- [x] **Step 3: Verify the server starts and routes respond correctly**
 
 Run in one terminal:
 ```bash
@@ -554,7 +554,7 @@ Expected:
 
 Stop the server with Ctrl+C once confirmed (no need to wait for the full 50-entry run — that happens in Task 9).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add app.py templates/index.html
