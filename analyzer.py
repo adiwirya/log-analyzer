@@ -3,6 +3,30 @@ import re
 
 import ollama
 
+LOG_LINE_RE = re.compile(
+    r"^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:,\d{3})?)\s+"
+    r"(?P<level>\w+)\s+\[(?P<service>[^\]]+)\]\s+(?P<message>.+)$"
+)
+
+
+def parse_log_file(path):
+    entries = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            match = LOG_LINE_RE.match(line)
+            if not match:
+                continue
+            entries.append({
+                "timestamp": match.group("timestamp"),
+                "service": match.group("service"),
+                "level": match.group("level"),
+                "message": match.group("message"),
+            })
+    return entries
+
 
 def build_prompt(service, message):
     return f"""You are a senior software engineer.
@@ -25,7 +49,7 @@ Return JSON only:
 }}"""
 
 
-def call_ollama(prompt, model="qwen3:4b"):
+def call_ollama(prompt, model="qwen3:1.7b"):
     response = ollama.chat(
         model=model,
         messages=[{"role": "user", "content": prompt}],
@@ -50,7 +74,7 @@ def parse_response(raw_text):
     raise ValueError(f"Could not parse JSON from response: {raw_text!r}")
 
 
-def analyze_entry(entry, model="qwen3:4b"):
+def analyze_entry(entry, model="qwen3:1.7b"):
     prompt = build_prompt(entry["service"], entry["message"])
 
     for attempt in range(2):
@@ -70,7 +94,7 @@ def analyze_entry(entry, model="qwen3:4b"):
                 }
 
 
-def run_analysis(logs, model="qwen3:4b", progress_callback=None):
+def run_analysis(logs, model="qwen3:1.7b", progress_callback=None):
     results = []
     total = len(logs)
     for i, entry in enumerate(logs, start=1):

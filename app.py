@@ -4,14 +4,15 @@ import threading
 
 from flask import Flask, jsonify, render_template
 
-from analyzer import run_analysis
+from analyzer import parse_log_file, run_analysis
 
 app = Flask(__name__)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
-LOGS_PATH = os.path.join(DATA_DIR, "logs.json")
+LOGS_PATH = os.path.join(DATA_DIR, "file.log")
 RESULT_PATH = os.path.join(DATA_DIR, "analysis_result.json")
-MODEL = "qwen3:4b"
+MODEL = "qwen3:1.7b"
+ANALYZABLE_LEVELS = {"ERROR", "CRITICAL"}
 
 progress = {"running": False, "current": 0, "total": 0, "done": False, "error": None}
 progress_lock = threading.Lock()
@@ -26,9 +27,13 @@ def _load_json(path):
 
 def _run_analysis_job():
     try:
-        logs = _load_json(LOGS_PATH)
-        if logs is None:
+        if not os.path.exists(LOGS_PATH):
             raise FileNotFoundError(f"{LOGS_PATH} not found")
+
+        logs = [
+            entry for entry in parse_log_file(LOGS_PATH)
+            if entry["level"].upper() in ANALYZABLE_LEVELS
+        ]
 
         def on_progress(current, total):
             with progress_lock:
