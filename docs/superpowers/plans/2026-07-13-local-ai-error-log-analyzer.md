@@ -128,8 +128,6 @@ git commit -m "Add project scaffold and 50-entry dummy log dataset"
 
 ### Task 2: Prompt builder + Ollama client wrapper
 
-> **PAUSED HERE (2026-07-13) — resume point.** Work paused mid-task to switch machines. See `docs/superpowers/plans/HANDOFF.md` for exact resume instructions before continuing. Commit `wip-task2` on branch `worktree-feature+local-ai-log-analyzer` contains `analyzer.py` with `build_prompt`/`call_ollama` already written verbatim per this task's Step 2 — content only, NOT yet verified (Steps 3-4 unconfirmed) or committed as a finished task.
-
 **Files:**
 - Create: `analyzer.py`
 
@@ -139,13 +137,13 @@ git commit -m "Add project scaffold and 50-entry dummy log dataset"
   - `build_prompt(service: str, message: str) -> str`
   - `call_ollama(prompt: str, model: str = "qwen3:4b") -> str` — returns the raw text content of the model's reply.
 
-- [ ] **Step 1: Install dependencies**
+- [x] **Step 1: Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-- [ ] **Step 2: Create `analyzer.py` with `build_prompt` and `call_ollama`**
+- [x] **Step 2: Create `analyzer.py` with `build_prompt` and `call_ollama`**
 
 ```python
 import ollama
@@ -181,7 +179,7 @@ def call_ollama(prompt, model="qwen3:4b"):
     return response["message"]["content"]
 ```
 
-- [ ] **Step 3: Verify `build_prompt` output manually**
+- [x] **Step 3: Verify `build_prompt` output manually**
 
 Run:
 ```bash
@@ -189,7 +187,7 @@ python -c "from analyzer import build_prompt; print(build_prompt('Payment API', 
 ```
 Expected: prints the full prompt text with `Payment API` after `Service:` and `Redis connection refused` after `Error:`, ending with the JSON template.
 
-- [ ] **Step 4: Verify `call_ollama` against a real running Ollama instance**
+- [x] **Step 4: Verify `call_ollama` against a real running Ollama instance**
 
 Make sure Ollama is running and the model is pulled first:
 ```bash
@@ -202,12 +200,14 @@ python -c "from analyzer import build_prompt, call_ollama; print(call_ollama(bui
 ```
 Expected: prints a text response containing JSON-like content with keys `category`, `severity`, `root_cause`, `recommendation` (values will vary — this step only confirms the Ollama call round-trips successfully).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add analyzer.py
 git commit -m "Add prompt builder and Ollama client wrapper"
 ```
+
+**Task 2 status: COMPLETE.** `analyzer.py` content (committed earlier as `wip-task2`, commit `5502665`) re-verified on resume — Step 3 and Step 4 both passed against a real local Ollama instance (`qwen3:4b`). Finalized in commit below.
 
 ---
 
