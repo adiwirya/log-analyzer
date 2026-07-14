@@ -43,14 +43,14 @@
 - Consumes: nothing (first task)
 - Produces: `data/logs.json` — a JSON array of 50 objects, each `{"service": str, "level": str, "message": str}`. All later tasks that load the dataset read this exact path and shape.
 
-- [ ] **Step 1: Create `requirements.txt`**
+- [x] **Step 1: Create `requirements.txt`**
 
 ```
 flask
 ollama
 ```
 
-- [ ] **Step 2: Create `data/logs.json` with 50 dummy entries**
+- [x] **Step 2: Create `data/logs.json` with 50 dummy entries**
 
 ```json
 [
@@ -107,7 +107,7 @@ ollama
 ]
 ```
 
-- [ ] **Step 3: Verify the file is valid JSON with 50 entries**
+- [x] **Step 3: Verify the file is valid JSON with 50 entries**
 
 Run:
 ```bash
@@ -115,12 +115,14 @@ python -c "import json; data = json.load(open('data/logs.json')); print(len(data
 ```
 Expected: prints `50`, then the first entry (`POS API` / SQL connection timeout) and the last entry (`Recommendation Service` / gRPC deadline exceeded).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add requirements.txt data/logs.json
 git commit -m "Add project scaffold and 50-entry dummy log dataset"
 ```
+
+**Task 1 status: COMPLETE.** Commit `d75eb78`. Task-reviewer approved (spec compliant, no issues).
 
 ---
 
@@ -135,13 +137,13 @@ git commit -m "Add project scaffold and 50-entry dummy log dataset"
   - `build_prompt(service: str, message: str) -> str`
   - `call_ollama(prompt: str, model: str = "qwen3:4b") -> str` — returns the raw text content of the model's reply.
 
-- [ ] **Step 1: Install dependencies**
+- [x] **Step 1: Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-- [ ] **Step 2: Create `analyzer.py` with `build_prompt` and `call_ollama`**
+- [x] **Step 2: Create `analyzer.py` with `build_prompt` and `call_ollama`**
 
 ```python
 import ollama
@@ -177,7 +179,7 @@ def call_ollama(prompt, model="qwen3:4b"):
     return response["message"]["content"]
 ```
 
-- [ ] **Step 3: Verify `build_prompt` output manually**
+- [x] **Step 3: Verify `build_prompt` output manually**
 
 Run:
 ```bash
@@ -185,7 +187,7 @@ python -c "from analyzer import build_prompt; print(build_prompt('Payment API', 
 ```
 Expected: prints the full prompt text with `Payment API` after `Service:` and `Redis connection refused` after `Error:`, ending with the JSON template.
 
-- [ ] **Step 4: Verify `call_ollama` against a real running Ollama instance**
+- [x] **Step 4: Verify `call_ollama` against a real running Ollama instance**
 
 Make sure Ollama is running and the model is pulled first:
 ```bash
@@ -198,12 +200,14 @@ python -c "from analyzer import build_prompt, call_ollama; print(call_ollama(bui
 ```
 Expected: prints a text response containing JSON-like content with keys `category`, `severity`, `root_cause`, `recommendation` (values will vary — this step only confirms the Ollama call round-trips successfully).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add analyzer.py
 git commit -m "Add prompt builder and Ollama client wrapper"
 ```
+
+**Task 2 status: COMPLETE.** `analyzer.py` content (committed earlier as `wip-task2`, commit `5502665`) re-verified on resume — Step 3 and Step 4 both passed against a real local Ollama instance (`qwen3:4b`). Finalized in commit below.
 
 ---
 
@@ -218,7 +222,7 @@ git commit -m "Add prompt builder and Ollama client wrapper"
   - `parse_response(raw_text: str) -> dict` — raises `ValueError` if no JSON object can be extracted.
   - `analyze_entry(entry: dict, model: str = "qwen3:4b") -> dict` — returns `{**entry, **ai_fields}` where `ai_fields` has keys `category`, `severity`, `root_cause`, `recommendation` (and `raw_response` only on fallback).
 
-- [ ] **Step 1: Add `parse_response` and `analyze_entry` to `analyzer.py`**
+- [x] **Step 1: Add `parse_response` and `analyze_entry` to `analyzer.py`**
 
 ```python
 import json
@@ -293,7 +297,7 @@ def analyze_entry(entry, model="qwen3:4b"):
                 }
 ```
 
-- [ ] **Step 2: Verify `parse_response` on clean JSON**
+- [x] **Step 2: Verify `parse_response` on clean JSON**
 
 Run:
 ```bash
@@ -301,7 +305,7 @@ python -c "from analyzer import parse_response; print(parse_response('{\"categor
 ```
 Expected: prints `{'category': 'Database', 'severity': 'HIGH', 'root_cause': 'x', 'recommendation': ['a']}`.
 
-- [ ] **Step 3: Verify `parse_response` extracts JSON wrapped in prose**
+- [x] **Step 3: Verify `parse_response` extracts JSON wrapped in prose**
 
 Run:
 ```bash
@@ -309,7 +313,7 @@ python -c "from analyzer import parse_response; print(parse_response('Sure! Here
 ```
 Expected: prints `{'category': 'Database', 'severity': 'HIGH', 'root_cause': 'x', 'recommendation': []}`.
 
-- [ ] **Step 4: Verify `parse_response` raises on unparseable text**
+- [x] **Step 4: Verify `parse_response` raises on unparseable text**
 
 Run:
 ```bash
@@ -317,7 +321,7 @@ python -c "from analyzer import parse_response; parse_response('not json at all'
 ```
 Expected: raises `ValueError: Could not parse JSON from response: 'not json at all'`.
 
-- [ ] **Step 5: Verify `analyze_entry` retry-then-fallback behavior (no real Ollama call needed)**
+- [x] **Step 5: Verify `analyze_entry` retry-then-fallback behavior (no real Ollama call needed)**
 
 Run:
 ```bash
@@ -341,7 +345,7 @@ EOF
 ```
 Expected: prints a dict with `category: 'UNKNOWN'`, `severity: 'UNKNOWN'`, `root_cause: 'Failed to parse AI response'`, `raw_response: 'not valid json'`, and `calls: 2` (confirming exactly one retry).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add analyzer.py
@@ -359,7 +363,7 @@ git commit -m "Add JSON response parsing with retry and UNKNOWN fallback"
 - Consumes: `analyze_entry` from Task 3.
 - Produces: `run_analysis(logs: list[dict], model: str = "qwen3:4b", progress_callback=None) -> list[dict]` — `progress_callback`, if given, is called as `progress_callback(current: int, total: int)` after each entry.
 
-- [ ] **Step 1: Add `run_analysis` to `analyzer.py`**
+- [x] **Step 1: Add `run_analysis` to `analyzer.py`**
 
 Append this function at the end of `analyzer.py`:
 
@@ -375,7 +379,7 @@ def run_analysis(logs, model="qwen3:4b", progress_callback=None):
     return results
 ```
 
-- [ ] **Step 2: Verify `run_analysis` drives `analyze_entry` and reports progress (no real Ollama call needed)**
+- [x] **Step 2: Verify `run_analysis` drives `analyze_entry` and reports progress (no real Ollama call needed)**
 
 Run:
 ```bash
@@ -402,7 +406,7 @@ EOF
 ```
 Expected: prints `3`, then a dict for the first entry with `service: 'A'` and `category: 'Database'`, then `[(1, 3), (2, 3), (3, 3)]`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add analyzer.py
@@ -423,7 +427,7 @@ git commit -m "Add batch runner with progress callback"
   - Writes `data/analysis_result.json` on completion — later tasks (templates/JS) read this shape: a JSON array of dicts, each with `service`, `level`, `message`, `category`, `severity`, `root_cause`, `recommendation` (and optionally `raw_response`).
   - Module-level `progress` dict shape consumed by `templates/index.html`/`static/app.js`: `{"running": bool, "current": int, "total": int, "done": bool, "error": str | None}`.
 
-- [ ] **Step 1: Create `app.py`**
+- [x] **Step 1: Create `app.py`**
 
 ```python
 import json
@@ -517,7 +521,7 @@ if __name__ == "__main__":
     app.run(debug=True)
 ```
 
-- [ ] **Step 2: Create minimal placeholder template so the app can start**
+- [x] **Step 2: Create minimal placeholder template so the app can start**
 
 Create `templates/index.html` with a temporary placeholder (this is replaced with the full viewer in Task 6):
 
@@ -529,7 +533,7 @@ Create `templates/index.html` with a temporary placeholder (this is replaced wit
 </html>
 ```
 
-- [ ] **Step 3: Verify the server starts and routes respond correctly**
+- [x] **Step 3: Verify the server starts and routes respond correctly**
 
 Run in one terminal:
 ```bash
@@ -550,7 +554,7 @@ Expected:
 
 Stop the server with Ctrl+C once confirmed (no need to wait for the full 50-entry run — that happens in Task 9).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add app.py templates/index.html
@@ -570,7 +574,7 @@ git commit -m "Add Flask app with background-thread analysis and polling routes"
 - Consumes: `GET /status` and `POST /run-analysis` responses from Task 5 (shapes above).
 - Produces: DOM elements consumed by Task 7's rendering code: `#summary` (container), `#results-table` + `#results-body` (table), `#error-banner`, `#progress-container` / `#progress-bar-fill` / `#progress-text`.
 
-- [ ] **Step 1: Replace `templates/index.html` with the full viewer page**
+- [x] **Step 1: Replace `templates/index.html` with the full viewer page**
 
 ```html
 <!DOCTYPE html>
@@ -622,7 +626,7 @@ git commit -m "Add Flask app with background-thread analysis and polling routes"
 </html>
 ```
 
-- [ ] **Step 2: Create `static/style.css`**
+- [x] **Step 2: Create `static/style.css`**
 
 ```css
 * { box-sizing: border-box; font-family: -apple-system, "Segoe UI", Arial, sans-serif; }
@@ -655,7 +659,7 @@ th { background: #fafafa; }
 .badge-unknown { background: #6b7280; }
 ```
 
-- [ ] **Step 3: Create `static/app.js` with run button + polling (rendering stubbed for now)**
+- [x] **Step 3: Create `static/app.js` with run button + polling (rendering stubbed for now)**
 
 ```javascript
 const runBtn = document.getElementById("run-btn");
@@ -723,7 +727,7 @@ runBtn.addEventListener("click", () => {
 renderResults(window.INITIAL_RESULTS);
 ```
 
-- [ ] **Step 4: Verify in browser**
+- [x] **Step 4: Verify in browser**
 
 Run:
 ```bash
@@ -737,7 +741,7 @@ Open `http://127.0.0.1:5000/` in a browser. Confirm:
 
 Stop the server with Ctrl+C once confirmed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add templates/index.html static/style.css static/app.js
@@ -755,7 +759,7 @@ git commit -m "Add viewer template, styling, and run/poll wiring"
 - Consumes: results array shape from Task 5 (`service`, `level`, `message`, `category`, `severity`, `root_cause`, `recommendation`).
 - Produces: fully populated `#summary` and `#results-table` DOM — nothing further depends on this beyond the browser.
 
-- [ ] **Step 1: Replace the stub `renderResults` in `static/app.js` with full rendering**
+- [x] **Step 1: Replace the stub `renderResults` in `static/app.js` with full rendering**
 
 Replace this block:
 
@@ -825,7 +829,7 @@ function renderResults(results) {
 }
 ```
 
-- [ ] **Step 2: Verify with a small fixture in the browser**
+- [x] **Step 2: Verify with a small fixture in the browser**
 
 Run:
 ```bash
@@ -841,7 +845,7 @@ renderResults([
 ```
 Expected: the summary bar shows "Total Analyzed: 2", "HIGH: 1", "LOW: 1"; the table shows two rows, "Test A" first (HIGH sorts above LOW) with a red badge, "Test B" second with a green badge, and its recommendation cell rendered as a bullet list with one item.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add static/app.js
@@ -860,7 +864,7 @@ git commit -m "Render summary stats and results table"
 - Consumes: `progress["error"]` (Task 5), `logs_exist` template variable (Task 5).
 - Produces: no new interfaces — this task hardens existing behavior.
 
-- [ ] **Step 1: Verify the missing-dataset case (uses existing `logs_exist` check from Task 5)**
+- [x] **Step 1: Verify the missing-dataset case (uses existing `logs_exist` check from Task 5)**
 
 Run:
 ```bash
@@ -877,7 +881,7 @@ Stop the server (Ctrl+C), then restore the dataset:
 mv data/logs.json.bak data/logs.json
 ```
 
-- [ ] **Step 2: Verify the Ollama-unavailable case without needing to actually stop Ollama**
+- [x] **Step 2: Verify the Ollama-unavailable case without needing to actually stop Ollama**
 
 `_run_analysis_job` in `app.py` already wraps the whole job in `try/except Exception` and stores `str(exc)` in `progress["error"]` (see Task 5, Step 1) — this step confirms that path surfaces correctly end-to-end through `/status` and the UI.
 
@@ -901,7 +905,7 @@ EOF
 ```
 Expected: prints a `progress` dict with `"running": False`, `"done": True`, and `"error"` containing `"Could not connect to Ollama at http://localhost:11434"`.
 
-- [ ] **Step 3: Confirm the error renders in the browser UI**
+- [x] **Step 3: Confirm the error renders in the browser UI**
 
 Run:
 ```bash
@@ -922,7 +926,7 @@ Then, with the server still running, use devtools to remove the `disabled` attri
 mv data/logs.json.bak data/logs.json
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add app.py templates/index.html
