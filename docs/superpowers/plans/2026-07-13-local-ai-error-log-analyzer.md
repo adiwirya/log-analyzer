@@ -759,7 +759,7 @@ git commit -m "Add viewer template, styling, and run/poll wiring"
 - Consumes: results array shape from Task 5 (`service`, `level`, `message`, `category`, `severity`, `root_cause`, `recommendation`).
 - Produces: fully populated `#summary` and `#results-table` DOM — nothing further depends on this beyond the browser.
 
-- [ ] **Step 1: Replace the stub `renderResults` in `static/app.js` with full rendering**
+- [x] **Step 1: Replace the stub `renderResults` in `static/app.js` with full rendering**
 
 Replace this block:
 
@@ -829,7 +829,7 @@ function renderResults(results) {
 }
 ```
 
-- [ ] **Step 2: Verify with a small fixture in the browser**
+- [x] **Step 2: Verify with a small fixture in the browser**
 
 Run:
 ```bash
@@ -845,7 +845,7 @@ renderResults([
 ```
 Expected: the summary bar shows "Total Analyzed: 2", "HIGH: 1", "LOW: 1"; the table shows two rows, "Test A" first (HIGH sorts above LOW) with a red badge, "Test B" second with a green badge, and its recommendation cell rendered as a bullet list with one item.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add static/app.js
