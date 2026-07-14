@@ -1,5 +1,47 @@
 <!DOCTYPE html>
-<html>
-<head><title>Local AI Error Log Analyzer</title></head>
-<body><h1>Placeholder — replaced in Task 6</h1></body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local AI Error Log Analyzer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Local AI Error Log Analyzer</h1>
+    <button id="run-btn" {% if not logs_exist %}disabled{% endif %}>Run Analysis</button>
+  </header>
+
+  {% if not logs_exist %}
+  <p class="error-banner">data/logs.json not found. Add a dataset file before running analysis.</p>
+  {% endif %}
+
+  <div id="progress-container" class="hidden">
+    <div id="progress-bar"><div id="progress-bar-fill"></div></div>
+    <p id="progress-text"></p>
+  </div>
+
+  <p id="error-banner" class="error-banner hidden"></p>
+
+  <section id="summary"></section>
+
+  <table id="results-table" class="hidden">
+    <thead>
+      <tr>
+        <th>Service</th>
+        <th>Level</th>
+        <th>Message</th>
+        <th>Category</th>
+        <th>Severity</th>
+        <th>Root Cause</th>
+        <th>Recommendation</th>
+      </tr>
+    </thead>
+    <tbody id="results-body"></tbody>
+  </table>
+
+  <script>
+    window.INITIAL_RESULTS = {{ (results or []) | tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
 </html>
