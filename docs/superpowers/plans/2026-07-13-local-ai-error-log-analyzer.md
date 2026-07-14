@@ -363,7 +363,7 @@ git commit -m "Add JSON response parsing with retry and UNKNOWN fallback"
 - Consumes: `analyze_entry` from Task 3.
 - Produces: `run_analysis(logs: list[dict], model: str = "qwen3:4b", progress_callback=None) -> list[dict]` — `progress_callback`, if given, is called as `progress_callback(current: int, total: int)` after each entry.
 
-- [ ] **Step 1: Add `run_analysis` to `analyzer.py`**
+- [x] **Step 1: Add `run_analysis` to `analyzer.py`**
 
 Append this function at the end of `analyzer.py`:
 
@@ -379,7 +379,7 @@ def run_analysis(logs, model="qwen3:4b", progress_callback=None):
     return results
 ```
 
-- [ ] **Step 2: Verify `run_analysis` drives `analyze_entry` and reports progress (no real Ollama call needed)**
+- [x] **Step 2: Verify `run_analysis` drives `analyze_entry` and reports progress (no real Ollama call needed)**
 
 Run:
 ```bash
@@ -406,7 +406,7 @@ EOF
 ```
 Expected: prints `3`, then a dict for the first entry with `service: 'A'` and `category: 'Database'`, then `[(1, 3), (2, 3), (3, 3)]`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add analyzer.py
