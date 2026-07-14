@@ -1,0 +1,57 @@
+2026-07-14 09:10:15,002 INFO [POS API] Health check passed
+2026-07-14 09:12:03,441 ERROR [POS API] SQL connection timeout
+2026-07-14 09:13:20,567 DEBUG [Payment API] Cache hit for pricing lookup
+2026-07-14 09:14:41,118 ERROR [Payment API] SQL connection timeout after 30000ms
+2026-07-14 09:18:55,304 INFO [Order Service] Order #48213 created successfully
+2026-07-14 09:20:07,933 CRITICAL [Order Service] Deadlock found when trying to get lock; try restarting transaction
+2026-07-14 09:23:10,712 DEBUG [Inventory Service] Refreshing stock cache for warehouse WH-04
+2026-07-14 09:25:52,204 ERROR [Inventory Service] Query execution timeout after 30000ms on table 'stock_levels'
+2026-07-14 09:29:33,860 INFO [Reporting Service] Nightly report generated in 4.2s
+2026-07-14 09:31:19,077 ERROR [Reporting Service] Too many connections to MySQL server
+2026-07-14 09:36:02,441 INFO [API Gateway] Request routed to payment-api in 82ms
+2026-07-14 09:38:44,650 ERROR [API Gateway] Connection refused: upstream service unreachable at payment-api.internal:8443
+2026-07-14 09:40:12,190 DEBUG [Notification Service] Queued email to customer #9931
+2026-07-14 09:41:02,915 CRITICAL [Notification Service] DNS resolution failed for host smtp.relay.internal after 3 retries
+2026-07-14 09:44:58,207 INFO [CDN Service] Cache warmed for region ap-southeast-1
+2026-07-14 09:45:30,112 ERROR [CDN Service] Connection reset by peer while streaming asset bundle
+2026-07-14 09:47:12,330 INFO [Auth Service] User 8823 logged in successfully
+2026-07-14 09:48:05,881 ERROR [Auth Service] JWT signature verification failed for token issued by legacy-auth-v1
+2026-07-14 09:50:41,209 DEBUG [Search Service] Elasticsearch query completed in 112ms
+2026-07-14 09:52:18,477 CRITICAL [Search Service] Elasticsearch cluster status RED: 3 primary shards unassigned
+2026-07-14 09:54:03,662 INFO [Cart Service] Cart #55210 updated with 2 items
+2026-07-14 09:55:47,915 ERROR [Cart Service] Redis connection pool exhausted: max 50 connections reached
+2026-07-14 09:58:22,140 DEBUG [Shipping Service] Rate calculation cache miss for zone JP-13
+2026-07-14 10:00:09,533 ERROR [Shipping Service] Third-party carrier API returned 503 Service Unavailable
+2026-07-14 10:02:47,801 INFO [Warehouse Service] Stock sync completed for warehouse WH-02
+2026-07-14 10:04:15,266 CRITICAL [Warehouse Service] Out of memory: container killed by OOM killer
+2026-07-14 10:06:33,590 DEBUG [Recommendation Service] Model inference completed in 340ms
+2026-07-14 10:08:11,742 ERROR [Recommendation Service] Feature store lookup timed out after 5000ms
+2026-07-14 10:10:56,018 INFO [Billing Service] Invoice #7741 generated successfully
+2026-07-14 10:12:34,395 ERROR [Billing Service] Payment gateway declined transaction: insufficient funds
+2026-07-14 10:15:02,187 CRITICAL [Billing Service] Database replication lag exceeded 60s, failing over to standby
+2026-07-14 10:17:48,603 DEBUG [Session Service] Session token refreshed for user 4471
+2026-07-14 10:19:25,911 ERROR [Session Service] Memcached node unreachable: 10.0.4.22:11211
+2026-07-14 10:22:07,254 INFO [Analytics Service] Batch export of 12000 events completed
+2026-07-14 10:24:39,478 ERROR [Analytics Service] Kafka consumer lag exceeded threshold on topic order-events
+2026-07-14 10:26:15,832 DEBUG [Loyalty Service] Points calculation completed for user 9902
+2026-07-14 10:28:03,166 CRITICAL [Loyalty Service] Circular dependency detected in rules engine, aborting evaluation
+2026-07-14 10:30:41,590 INFO [Fraud Detection] Transaction #33210 passed risk check
+2026-07-14 10:32:19,824 ERROR [Fraud Detection] Model scoring service returned malformed response
+2026-07-14 10:34:56,377 DEBUG [Catalog Service] Product cache refreshed for category electronics
+2026-07-14 10:37:12,650 ERROR [Catalog Service] Image CDN upload failed: request timed out
+2026-07-14 10:39:44,908 CRITICAL [Catalog Service] Disk usage at 98% on volume /data, writes may fail
+2026-07-14 10:42:20,133 INFO [Email Service] Marketing campaign email batch sent to 5000 recipients
+2026-07-14 10:44:58,471 ERROR [Email Service] SMTP relay rejected connection: too many recipients
+2026-07-14 10:47:31,809 DEBUG [Push Notification Service] APNs token refreshed for device ID 5521
+2026-07-14 10:49:16,255 ERROR [Push Notification Service] FCM returned 401 Unauthorized: invalid server key
+2026-07-14 10:51:53,602 CRITICAL [Push Notification Service] Message queue backlog exceeded 100000 messages
+2026-07-14 10:54:29,847 INFO [Config Service] Feature flag 'new-checkout' enabled for 10% of traffic
+2026-07-14 10:56:07,190 ERROR [Config Service] Failed to reload configuration: invalid YAML syntax at line 42
+2026-07-14 10:58:44,528 DEBUG [Metrics Service] Prometheus scrape completed in 88ms
+2026-07-14 11:00:22,761 ERROR [Metrics Service] Scrape target unreachable: metrics-exporter.internal:9090
+2026-07-14 11:02:59,015 CRITICAL [Metrics Service] Disk write error on time-series storage volume
+2026-07-14 11:05:33,349 INFO [Order Service] Order #48219 shipped via express carrier
+2026-07-14 11:07:18,682 ERROR [Order Service] Failed to reserve inventory: race condition detected on SKU-4471
+2026-07-14 11:09:46,924 DEBUG [Payment API] Retrying payment authorization, attempt 2 of 3
+2026-07-14 11:11:31,257 ERROR [Payment API] Gateway timeout: no response from payment processor after 20000ms
+2026-07-14 11:13:08,590 CRITICAL [Payment API] Certificate expired for payment-processor.internal, TLS handshake failing

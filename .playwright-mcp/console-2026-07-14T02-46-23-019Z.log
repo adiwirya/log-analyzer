@@ -1,0 +1,5 @@
+[     274ms] [LOG] renderResults called with 0 entries @ http://127.0.0.1:5000/static/app.js:13
+[     302ms] [ERROR] Failed to load resource: the server responded with a status of 404 (NOT FOUND) @ http://127.0.0.1:5000/favicon.ico:0
+[  255656ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://127.0.0.1:5000/status:0
+[  255657ms] TypeError: Failed to fetch
+    at poll (http://127.0.0.1:5000/static/app.js:18:3)

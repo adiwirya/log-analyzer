@@ -1,0 +1,6 @@
+- generic [active] [ref=f2e1]:
+  - banner [ref=f2e2]:
+    - heading "Local AI Error Log Analyzer" [level=1] [ref=f2e3]
+    - button "Run Analysis" [ref=f2e4] [cursor=pointer]
+  - paragraph [ref=f2e5]: data/logs.json not found. Add a dataset file before running analysis.
+  - paragraph [ref=f2e6]: D:\Project\log-analyzer\.claude\worktrees\feature+local-ai-log-analyzer\data\logs.json not found

@@ -14,3 +14,12 @@
 2026-07-14 09:41:02,915 CRITICAL [Notification Service] DNS resolution failed for host smtp.relay.internal after 3 retries
 2026-07-14 09:44:58,207 INFO [CDN Service] Cache warmed for region ap-southeast-1
 2026-07-14 09:45:30,112 ERROR [CDN Service] Connection reset by peer while streaming asset bundle
+2026-07-14 09:47:12,330 INFO [Auth Service] User 8823 logged in successfully
+2026-07-14 09:48:05,881 ERROR [Auth Service] JWT signature verification failed for token issued by legacy-auth-v1
+2026-07-14 09:50:41,209 DEBUG [Search Service] Elasticsearch query completed in 112ms
+2026-07-14 09:52:18,477 CRITICAL [Search Service] Elasticsearch cluster status RED: 3 primary shards unassigned
+2026-07-14 09:54:03,662 INFO [Cart Service] Cart #55210 updated with 2 items
+2026-07-14 09:55:47,915 ERROR [Cart Service] Redis connection pool exhausted: max 50 connections reached
+2026-07-14 09:58:22,140 DEBUG [Shipping Service] Rate calculation cache miss for zone JP-13
+2026-07-14 10:00:09,533 ERROR [Shipping Service] Third-party carrier API returned 503 Service Unavailable
+2026-07-14 10:02:47,801 INFO [Warehouse Service] Stock sync completed for warehouse WH-02
