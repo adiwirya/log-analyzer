@@ -864,7 +864,7 @@ git commit -m "Render summary stats and results table"
 - Consumes: `progress["error"]` (Task 5), `logs_exist` template variable (Task 5).
 - Produces: no new interfaces — this task hardens existing behavior.
 
-- [ ] **Step 1: Verify the missing-dataset case (uses existing `logs_exist` check from Task 5)**
+- [x] **Step 1: Verify the missing-dataset case (uses existing `logs_exist` check from Task 5)**
 
 Run:
 ```bash
@@ -881,7 +881,7 @@ Stop the server (Ctrl+C), then restore the dataset:
 mv data/logs.json.bak data/logs.json
 ```
 
-- [ ] **Step 2: Verify the Ollama-unavailable case without needing to actually stop Ollama**
+- [x] **Step 2: Verify the Ollama-unavailable case without needing to actually stop Ollama**
 
 `_run_analysis_job` in `app.py` already wraps the whole job in `try/except Exception` and stores `str(exc)` in `progress["error"]` (see Task 5, Step 1) — this step confirms that path surfaces correctly end-to-end through `/status` and the UI.
 
@@ -905,7 +905,7 @@ EOF
 ```
 Expected: prints a `progress` dict with `"running": False`, `"done": True`, and `"error"` containing `"Could not connect to Ollama at http://localhost:11434"`.
 
-- [ ] **Step 3: Confirm the error renders in the browser UI**
+- [x] **Step 3: Confirm the error renders in the browser UI**
 
 Run:
 ```bash
@@ -926,7 +926,7 @@ Then, with the server still running, use devtools to remove the `disabled` attri
 mv data/logs.json.bak data/logs.json
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add app.py templates/index.html
