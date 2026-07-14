@@ -68,3 +68,14 @@ def analyze_entry(entry, model="qwen3:4b"):
                     "recommendation": [],
                     "raw_response": raw_text,
                 }
+
+
+def run_analysis(logs, model="qwen3:4b", progress_callback=None):
+    results = []
+    total = len(logs)
+    for i, entry in enumerate(logs, start=1):
+        result = analyze_entry(entry, model=model)
+        results.append(result)
+        if progress_callback:
+            progress_callback(i, total)
+    return results
