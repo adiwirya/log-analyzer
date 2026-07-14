@@ -14,6 +14,12 @@ function showError(message) {
   errorBanner.classList.remove("hidden");
 }
 
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = value;
+  return div.innerHTML;
+}
+
 function severityBadgeClass(severity) {
   const key = (severity || "UNKNOWN").toUpperCase();
   if (key === "CRITICAL" || key === "HIGH") return "badge-high";
@@ -31,7 +37,7 @@ function renderSummary(results) {
 
   let html = `<div class="summary-item"><span class="label">Total Analyzed</span><span class="value">${results.length}</span></div>`;
   for (const sev of Object.keys(bySeverity).sort((a, b) => (SEVERITY_ORDER[a] ?? 4) - (SEVERITY_ORDER[b] ?? 4))) {
-    html += `<div class="summary-item"><span class="label">${sev}</span><span class="value">${bySeverity[sev]}</span></div>`;
+    html += `<div class="summary-item"><span class="label">${escapeHtml(sev)}</span><span class="value">${bySeverity[sev]}</span></div>`;
   }
   summary.innerHTML = html;
 }
@@ -45,13 +51,13 @@ function renderTable(results) {
 
   resultsBody.innerHTML = sorted.map(r => `
     <tr>
-      <td>${r.service}</td>
-      <td>${r.level}</td>
-      <td>${(r.message || "").slice(0, 60)}</td>
-      <td>${r.category || ""}</td>
-      <td><span class="badge ${severityBadgeClass(r.severity)}">${r.severity || "UNKNOWN"}</span></td>
-      <td>${r.root_cause || ""}</td>
-      <td><ul>${(r.recommendation || []).map(rec => `<li>${rec}</li>`).join("")}</ul></td>
+      <td>${escapeHtml(r.service)}</td>
+      <td>${escapeHtml(r.level)}</td>
+      <td>${escapeHtml((r.message || "").slice(0, 60))}</td>
+      <td>${escapeHtml(r.category || "")}</td>
+      <td><span class="badge ${severityBadgeClass(r.severity)}">${escapeHtml(r.severity || "UNKNOWN")}</span></td>
+      <td>${escapeHtml(r.root_cause || "")}</td>
+      <td><ul>${(r.recommendation || []).map(rec => `<li>${escapeHtml(rec)}</li>`).join("")}</ul></td>
     </tr>
   `).join("");
   resultsTable.classList.remove("hidden");
